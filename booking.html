@@ -1,10 +1,309 @@
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <title>$Title$</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Бронирование - Праздник в каждый дом</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+      * {
+          margin: 0;
+          padding: 0;
+          box-sizing: border-box;
+          font-family: 'Poppins', sans-serif;
+      }
+
+      body {
+          background-color: #f8f1e9;
+          color: #2d2d2d;
+      }
+
+      header {
+          background: linear-gradient(90deg, #1e3a8a, #3b82f6);
+          padding: 20px 40px;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          color: white;
+          position: sticky;
+          top: 0;
+          z-index: 100;
+          box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      }
+
+      .logo {
+          font-size: 28px;
+          font-weight: 700;
+      }
+
+      nav ul {
+          list-style: none;
+          display: flex;
+          gap: 30px;
+      }
+
+      nav ul li a {
+          color: white;
+          text-decoration: none;
+          font-size: 16px;
+          font-weight: 600;
+          transition: color 0.3s;
+      }
+
+      nav ul li a:hover {
+          color: #facc15;
+      }
+
+      .booking {
+          padding: 60px 40px;
+          text-align: center;
+      }
+
+      .booking h1 {
+          font-size: 36px;
+          font-weight: 700;
+          margin-bottom: 40px;
+          color: #1e3a8a;
+      }
+
+      .order-summary {
+          background-color: white;
+          padding: 20px;
+          border-radius: 15px;
+          box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+          max-width: 600px;
+          margin: 0 auto 40px;
+          animation: slideIn 1s ease-in-out;
+      }
+
+      @keyframes slideIn {
+          from { transform: translateY(50px); opacity: 0; }
+          to { transform: translateY(0); opacity: 1; }
+      }
+
+      .order-summary p {
+          margin: 10px 0;
+          font-size: 16px;
+      }
+
+      .booking form {
+          max-width: 600px;
+          margin: 0 auto;
+          display: flex;
+          flex-direction: column;
+          gap: 20px;
+      }
+
+      .services {
+          display: flex;
+          flex-direction: column;
+          gap: 15px;
+          text-align: left;
+      }
+
+      .services label {
+          font-size: 16px;
+          display: flex;
+          align-items: center;
+          gap: 10px;
+      }
+
+      textarea {
+          padding: 12px;
+          border: 2px solid #bfdbfe;
+          border-radius: 8px;
+          resize: vertical;
+          width: 100%;
+          font-size: 16px;
+      }
+
+      input[type="email"] {
+          padding: 12px;
+          border: 2px solid #bfdbfe;
+          border-radius: 8px;
+          width: 100%;
+          font-size: 16px;
+      }
+
+      .total-cost {
+          font-size: 18px;
+          font-weight: 700;
+          margin: 20px 0;
+          color: #1e3a8a;
+      }
+
+      .booking button {
+          padding: 12px 30px;
+          background-color: #facc15;
+          color: #1e3a8a;
+          border: none;
+          border-radius: 8px;
+          font-size: 16px;
+          font-weight: 600;
+          cursor: pointer;
+          transition: background-color 0.3s, transform 0.3s;
+      }
+
+      .booking button:hover {
+          background-color: #eab308;
+          transform: scale(1.05);
+      }
+
+      footer {
+          padding: 40px;
+          background-color: #1e3a8a;
+          color: white;
+          text-align: center;
+      }
+
+      footer a {
+          color: #facc15;
+          text-decoration: none;
+          font-size: 16px;
+          margin: 0 15px;
+      }
+
+      @media (max-width: 768px) {
+          .order-summary { max-width: 100%; }
+      }
+  </style>
 </head>
 <body>
-$END$
+<header>
+  <div class="logo">Праздник в каждый дом</div>
+  <nav>
+    <ul>
+      <li><a href="index.html#promotions">Акции</a></li>
+      <li><a href="search.html">Поиск</a></li>
+      <li><a href="#booking-management">Управление бронированием</a></li>
+    </ul>
+  </nav>
+</header>
+
+<section class="booking">
+  <h1>Оформление бронирования</h1>
+  <div class="order-summary" id="orderSummary"></div>
+  <form id="bookingForm">
+    <div class="services">
+      <label><input type="checkbox" name="catering" data-cost="10000"> Организация питания (10,000 руб.)</label>
+      <label><input type="checkbox" name="animators" data-cost="8000"> Услуги аниматоров (8,000 руб.)</label>
+      <label><input type="checkbox" name="host" data-cost="12000"> Услуги ведущего (12,000 руб.)</label>
+      <label><input type="checkbox" name="taxi" data-cost="5000"> Детское такси (5,000 руб.)</label>
+    </div>
+    <textarea name="comment" placeholder="Дополнительный комментарий к заказу"></textarea>
+    <input type="email" name="email" placeholder="Ваш Email" required>
+    <p class="total-cost">Итоговая стоимость: <span id="totalCost">0 руб.</span></p>
+    <button type="submit">Оформить бронирование</button>
+  </form>
+</section>
+
+<footer>
+  <p>Телефон: 8 (800) 111-20-20</p>
+  <nav>
+    <a href="http://xxxxxx-m1.wsr.ru/return">Возврат</a>
+    <a href="http://xxxxxx-m1.wsr.ru/feedback">Обратная связь</a>
+  </nav>
+</footer>
+
+<script>
+  const locations = [
+    {
+      id: 1,
+      region: 'moscow',
+      name: 'Парк Сокольники',
+      address: 'ул. Сокольническая, 1',
+      availableDates: ['2025-06-01', '2025-06-02'],
+      zones: [
+        { id: 1, name: 'Зона 1', cost: 5000, available: true },
+        { id: 2, name: 'Зона 2', cost: 6000, available: true },
+        { id: 3, name: 'Зона 3', cost: 5500, available: false }
+      ],
+      maxCapacity: 50
+    },
+    {
+      id: 2,
+      region: 'moscow',
+      name: 'Измайловский парк',
+      address: 'ул. Измайловская, 7',
+      availableDates: ['2025-06-01', '2025-06-03'],
+      zones: [
+        { id: 1, name: 'Зона A', cost: 7000, available: true },
+        { id: 2, name: 'Зона B', cost: 6500, available: false }
+      ],
+      maxCapacity: 40
+    },
+    {
+      id: 3,
+      region: 'spb',
+      name: 'Приморский парк',
+      address: 'ул. Приморская, 10',
+      availableDates: ['2025-06-01', '2025-06-02'],
+      zones: [
+        { id: 1, name: 'Зона X', cost: 8000, available: true },
+        { id: 2, name: 'Зона Y', cost: 7500, available: true },
+        { id: 3, name: 'Зона Z', cost: 7000, available: true }
+      ],
+      maxCapacity: 60
+    }
+  ];
+
+  function displayOrderSummary() {
+    const searchData = JSON.parse(localStorage.getItem('searchData'));
+    const locationId = parseInt(localStorage.getItem('selectedLocationId'));
+    const zoneId = parseInt(localStorage.getItem('selectedZoneId'));
+
+    if (!searchData || !locationId || !zoneId) {
+      document.getElementById('orderSummary').innerHTML = '<p>Данные заказа не найдены.</p>';
+      return;
+    }
+
+    const location = locations.find(loc => loc.id === locationId);
+    const zone = location.zones.find(z => z.id === zoneId);
+
+    document.getElementById('orderSummary').innerHTML = `
+                <p><strong>Регион:</strong> ${location.region === 'moscow' ? 'Москва' : 'Санкт-Петербург'}</p>
+                <p><strong>Локация:</strong> ${location.name}</p>
+                <p><strong>Адрес:</strong> ${location.address}</p>
+                <p><strong>Дата:</strong> ${searchData.eventDate}</p>
+                <p><strong>Участники:</strong> ${searchData.adults} взрослых, ${searchData.children} детей</p>
+                <p><strong>Зона:</strong> ${zone.name}</p>
+                <p><strong>Стоимость зоны:</strong> ${zone.cost} руб.</p>
+            `;
+
+    updateTotalCost(zone.cost);
+  }
+
+  function updateTotalCost(baseCost) {
+    let total = baseCost;
+    const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
+    checkboxes.forEach(checkbox => {
+      total += parseInt(checkbox.getAttribute('data-cost'));
+    });
+    document.getElementById('totalCost').textContent = `${total} руб.`;
+  }
+
+  document.getElementById('bookingForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const services = Array.from(document.querySelectorAll('input[type="checkbox"]:checked')).map(cb => cb.name);
+    const comment = this.comment.value;
+    const email = this.email.value;
+    alert(`Бронирование успешно! Email: ${email}, Услуги: ${services.join(', ') || 'нет'}, Комментарий: ${comment || 'нет'}`);
+    localStorage.clear();
+    window.location.href = 'index.html';
+  });
+
+  document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+    checkbox.addEventListener('change', () => {
+      const zoneId = parseInt(localStorage.getItem('selectedZoneId'));
+      const locationId = parseInt(localStorage.getItem('selectedLocationId'));
+      const location = locations.find(loc => loc.id === locationId);
+      const zone = location.zones.find(z => z.id === zoneId);
+      updateTotalCost(zone.cost);
+    });
+  });
+
+  window.onload = displayOrderSummary;
+</script>
 </body>
 </html>

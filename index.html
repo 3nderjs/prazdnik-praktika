@@ -1,40 +1,605 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="ru">
 <head>
-  <meta charset="UTF-8" />
-  <link rel="icon" type="image/svg+xml" href="/webstorm-icon-logo.svg" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>WS playground</title>
-  <link rel="stylesheet" href="/style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Праздник в каждый дом</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+      * {
+          margin: 0;
+          padding: 0;
+          box-sizing: border-box;
+          font-family: 'Poppins', sans-serif;
+      }
+
+      body {
+          background-color: #f8f1e9;
+          color: #2d2d2d;
+          overflow-x: hidden;
+      }
+
+      /* Header */
+      header {
+          background: linear-gradient(90deg, #1e3a8a, #3b82f6);
+          padding: 20px 40px;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          color: white;
+          position: sticky;
+          top: 0;
+          z-index: 100;
+          box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      }
+
+      .logo {
+          font-size: 28px;
+          font-weight: 700;
+      }
+
+      nav ul {
+          list-style: none;
+          display: flex;
+          gap: 30px;
+      }
+
+      nav ul li a {
+          color: white;
+          text-decoration: none;
+          font-size: 16px;
+          font-weight: 600;
+          transition: color 0.3s;
+      }
+
+      nav ul li a:hover {
+          color: #facc15;
+      }
+
+      /* Hero Section */
+      .hero {
+          background: url('9307771.png') center/cover no-repeat;
+          height: 60vh;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          text-align: center;
+          color: white;
+          position: relative;
+          overflow: hidden;
+      }
+
+      .hero::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: rgba(0,0,0,0.5);
+          z-index: 1;
+      }
+
+      .hero-content {
+          position: relative;
+          z-index: 2;
+          animation: fadeInUp 1.5s ease-out;
+      }
+
+      .hero-content h1 {
+          font-size: 48px;
+          font-weight: 700;
+          margin-bottom: 20px;
+      }
+
+      .hero-content p {
+          font-size: 20px;
+          margin-bottom: 30px;
+      }
+
+      .hero-content button {
+          padding: 15px 30px;
+          background-color: #facc15;
+          color: #1e3a8a;
+          border: none;
+          border-radius: 50px;
+          font-size: 18px;
+          font-weight: 600;
+          cursor: pointer;
+          transition: transform 0.3s, background-color 0.3s;
+      }
+
+      .hero-content button:hover {
+          background-color: #eab308;
+          transform: scale(1.05);
+      }
+
+      @keyframes fadeInUp {
+          from { transform: translateY(50px); opacity: 0; }
+          to { transform: translateY(0); opacity: 1; }
+      }
+
+      /* Booking Steps */
+      .booking-steps {
+          padding: 60px 40px;
+          text-align: center;
+          background-color: #fff;
+      }
+
+      .booking-steps h1 {
+          font-size: 36px;
+          font-weight: 700;
+          margin-bottom: 40px;
+          color: #1e3a8a;
+      }
+
+      .steps {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+          gap: 20px;
+          max-width: 1200px;
+          margin: 0 auto;
+      }
+
+      .step {
+          background: linear-gradient(135deg, #facc15, #f59e0b);
+          padding: 20px;
+          border-radius: 15px;
+          text-align: center;
+          transition: transform 0.3s;
+          position: relative;
+          overflow: hidden;
+      }
+
+      .step::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: -100%;
+          width: 100%;
+          height: 100%;
+          background: rgba(255,255,255,0.2);
+          transition: left 0.5s;
+      }
+
+      .step:hover::before {
+          left: 100%;
+      }
+
+      .step:hover {
+          transform: translateY(-10px);
+      }
+
+      .step h3 {
+          margin-bottom: 10px;
+          font-size: 20px;
+          color: #1e3a8a;
+      }
+
+      /* Company Info */
+      .company-info {
+          padding: 60px 40px;
+          background: linear-gradient(180deg, #dbeafe, #f0f8ff);
+          text-align: center;
+      }
+
+      .company-info h2 {
+          font-size: 32px;
+          font-weight: 700;
+          margin-bottom: 20px;
+          color: #1e3a8a;
+      }
+
+      .reviews {
+          margin-top: 40px;
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+          gap: 20px;
+          max-width: 1200px;
+          margin: 0 auto;
+      }
+
+      .review {
+          background-color: white;
+          padding: 20px;
+          border: 1px solid #bfdbfe;
+          border-radius: 10px;
+          box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+          transition: transform 0.3s, box-shadow 0.3s;
+      }
+
+      .review:hover {
+          transform: translateY(-5px);
+          box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      }
+
+      .review p {
+          font-size: 16px;
+          margin-bottom: 10px;
+      }
+
+      .review p:last-child {
+          font-weight: 600;
+          color: #1e3a8a;
+      }
+
+      /* Search Form */
+      .search-form {
+          padding: 60px 40px;
+          background-color: #fff;
+          text-align: center;
+          position: relative;
+          margin: -30px 40px 0;
+          border-radius: 20px;
+          box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+          z-index: 10;
+      }
+
+      .search-form h2 {
+          font-size: 28px;
+          font-weight: 700;
+          margin-bottom: 20px;
+          color: #1e3a8a;
+      }
+
+      .search-form form {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+          gap: 15px;
+          max-width: 1000px;
+          margin: 0 auto;
+      }
+
+      .search-form input, .search-form select {
+          padding: 12px;
+          border: 2px solid #bfdbfe;
+          border-radius: 8px;
+          font-size: 16px;
+          transition: border-color 0.3s;
+      }
+
+      .search-form input:focus, .search-form select:focus {
+          border-color: #1e3a8a;
+          outline: none;
+      }
+
+      .search-form button {
+          padding: 12px 30px;
+          background-color: #facc15;
+          color: #1e3a8a;
+          border: none;
+          border-radius: 8px;
+          font-size: 16px;
+          font-weight: 600;
+          cursor: pointer;
+          transition: background-color 0.3s, transform 0.3s;
+      }
+
+      .search-form button:hover {
+          background-color: #eab308;
+          transform: scale(1.05);
+      }
+
+      /* Promotions */
+      .promotions {
+          padding: 60px 40px;
+          background-color: #f8f1e9;
+          text-align: center;
+      }
+
+      .promotions h2 {
+          font-size: 32px;
+          font-weight: 700;
+          margin-bottom: 40px;
+          color: #1e3a8a;
+      }
+
+      .promotion-list {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+          gap: 20px;
+          max-width: 1200px;
+          margin: 0 auto;
+      }
+
+      .promotion {
+          background-color: white;
+          padding: 20px;
+          border: 1px solid #bfdbfe;
+          border-radius: 10px;
+          box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+          transition: transform 0.3s, box-shadow 0.3s;
+      }
+
+      .promotion:hover {
+          transform: translateY(-5px);
+          box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      }
+
+      .promotion img {
+          width: 100%;
+          height: 180px;
+          object-fit: cover;
+          border-radius: 8px;
+          margin-bottom: 15px;
+      }
+
+      .promotion h3 {
+          font-size: 20px;
+          color: #1e3a8a;
+          margin-bottom: 10px;
+      }
+
+      .promotion p {
+          font-size: 14px;
+          margin-bottom: 15px;
+      }
+
+      .promotion button {
+          padding: 10px 20px;
+          background-color: #facc15;
+          color: #1e3a8a;
+          border: none;
+          border-radius: 8px;
+          font-size: 14px;
+          font-weight: 600;
+          cursor: pointer;
+          transition: background-color 0.3s;
+      }
+
+      .promotion button:hover {
+          background-color: #eab308;
+      }
+
+      /* Subscription */
+      .subscription {
+          padding: 60px 40px;
+          background: linear-gradient(90deg, #1e3a8a, #3b82f6);
+          color: white;
+          text-align: center;
+      }
+
+      .subscription h2 {
+          font-size: 28px;
+          font-weight: 700;
+          margin-bottom: 20px;
+      }
+
+      .subscription form {
+          display: flex;
+          justify-content: center;
+          gap: 15px;
+          max-width: 600px;
+          margin: 0 auto;
+      }
+
+      .subscription input {
+          padding: 12px;
+          width: 100%;
+          max-width: 350px;
+          border: none;
+          border-radius: 8px;
+          font-size: 16px;
+      }
+
+      .subscription button {
+          padding: 12px 30px;
+          background-color: #facc15;
+          color: #1e3a8a;
+          border: none;
+          border-radius: 8px;
+          font-size: 16px;
+          font-weight: 600;
+          cursor: pointer;
+          transition: background-color 0.3s;
+      }
+
+      .subscription button:hover {
+          background-color: #eab308;
+      }
+
+      /* Footer */
+      footer {
+          padding: 40px;
+          background-color: #1e3a8a;
+          color: white;
+          text-align: center;
+      }
+
+      footer p {
+          font-size: 18px;
+          margin-bottom: 20px;
+      }
+
+      footer nav ul {
+          list-style: none;
+          display: flex;
+          justify-content: center;
+          gap: 20px;
+      }
+
+      footer nav ul li a {
+          color: white;
+          text-decoration: none;
+          font-size: 14px;
+          font-weight: 600;
+          transition: color 0.3s;
+      }
+
+      footer nav ul li a:hover {
+          color: #facc15;
+      }
+
+      /* Responsive Design */
+      @media (max-width: 768px) {
+          header {
+              flex-direction: column;
+              gap: 20px;
+          }
+
+          nav ul {
+              flex-direction: column;
+              text-align: center;
+          }
+
+          .hero-content h1 {
+              font-size: 32px;
+          }
+
+          .hero-content p {
+              font-size: 18px;
+          }
+
+          .search-form form {
+              grid-template-columns: 1fr;
+          }
+
+          .steps, .reviews, .promotion-list {
+              grid-template-columns: 1fr;
+          }
+
+          footer nav ul {
+              flex-direction: column;
+              gap: 10px;
+          }
+      }
+  </style>
 </head>
 <body>
-<header class="logo">
-  <a href="https://www.jetbrains.com/webstorm/">
-    <img src="/webstorm-logo.svg" alt="WebStorm logo" width="344"
-         height="90">
-  </a>
+<!-- Header -->
+<header>
+  <div class="logo">Праздник в каждый дом</div>
+  <nav>
+    <ul>
+      <li><a href="#promotions" aria-label="Перейти к акциям">Акции</a></li>
+      <li><a href="search.html" aria-label="Перейти к поиску локаций">Поиск</a></li>
+      <li><a href="#booking-management" aria-label="Управление бронированием">Управление бронированием</a></li>
+    </ul>
+  </nav>
 </header>
-<main id="app">
-  <h1 class="title">
-    Thank you for trying it out. <br /> Your first project is up and running
-    now.
-  </h1>
-  <section class="counter">
-    <div class="counter-info">
-      <p class="counter-text">Counter is</p>
-      <p class="counter-value" id="counter-value"></p>
+
+<!-- Hero Section -->
+<section class="hero">
+  <div class="hero-content">
+    <h1>Подарим волшебство вашим детям!</h1>
+    <p>Организуем незабываемый праздник для всей семьи</p>
+    <button onclick="document.getElementById('search-form').scrollIntoView({behavior: 'smooth'})" aria-label="Прокрутить к форме поиска">Забронировать сейчас</button>
+  </div>
+</section>
+
+<!-- Booking Steps -->
+<section class="booking-steps">
+  <h1>Как забронировать праздник</h1>
+  <div class="steps">
+    <div class="step" style="animation-delay: 0.2s;"><h3>1. Выберите даты</h3><p>Укажите желаемые даты праздника.</p></div>
+    <div class="step" style="animation-delay: 0.6s;"><h3>2. Выберите локацию</h3><p>Найдите подходящую локацию.</p></div>
+    <div class="step" style="animation-delay: 1.2s;"><h3>3. Оформите заказ</h3><p>Подтвердите бронирование.</p></div>
+  </div>
+</section>
+
+<!-- Company Info -->
+<section class="company-info">
+  <h2>О нас</h2>
+  <p><strong>Цель:</strong> Сделать праздничные дни незабываемыми для детей и их родителей.</p>
+  <p><strong>Девиз:</strong> Подарим волшебство для Ваших детей!</p>
+  <div class="reviews">
+    <div class="review" aria-label="Отзыв от Анны">
+      <p>Лучший праздник для моего сына!</p>
+      <p>Анна, 47 лет</p>
     </div>
-    <div class="counter-interaction">
-      <button id="increaseByOne" type="button">+1</button>
-      <button id="increaseByTwo" type="button">+2</button>
-      <button id="decreaseByOne" type="button">-1</button>
-      <button id="decreaseByTwo" type="button">-2</button>
+    <div class="review" aria-label="Отзыв от Михаила">
+      <p>Аниматоры были великолепны!</p>
+      <p>Михаил, 50 лет</p>
     </div>
-  </section>
-</main>
-<footer class="technologies">
-  <img src="/technologies.svg" alt="List of supported technologies">
+    <div class="review" aria-label="Отзыв от Елены">
+      <p>Все продумано до мелочей!</p>
+      <p>Елена, 45 лет</p>
+    </div>
+  </div>
+</section>
+
+<!-- Search Form -->
+<section class="search-form" id="search-form">
+  <h2>Найти локацию</h2>
+  <form id="searchForm">
+    <select name="region" required aria-label="Выберите регион">
+      <option value="">Выберите регион</option>
+      <option value="moscow">Москва</option>
+      <option value="spb">Санкт-Петербург</option>
+    </select>
+    <input type="date" name="eventDate" required aria-label="Выберите дату мероприятия">
+    <input type="number" name="adults" placeholder="Количество взрослых" min="1" max="50" required aria-label="Количество взрослых">
+    <input type="number" name="children" placeholder="Количество детей" min="1" max="50" required aria-label="Количество детей">
+    <button type="submit" aria-label="Найти локации">Поиск</button>
+  </form>
+</section>
+
+<!-- Promotions -->
+<section class="promotions" id="promotions">
+  <h2>Акции</h2>
+  <div class="promotion-list">
+    <div class="promotion">
+      <img src="promo.png" alt="Акция на аниматоров">
+      <h3>Скидка на аниматоров</h3>
+      <p>20% скидка до конца месяца.</p>
+      <button aria-label="Подробнее об акции на аниматоров">Подробнее</button>
+    </div>
+    <div class="promotion">
+      <img src="promo2.png" alt="Акция на такси">
+      <h3>Бесплатное такси</h3>
+      <p>При заказе от 50,000 руб.</p>
+      <button aria-label="Подробнее об акции на такси">Подробнее</button>
+    </div>
+    <div class="promotion">
+      <img src="promo3.png" alt="Акция на торт">
+      <h3>Торт в подарок</h3>
+      <p>При заказе питания на 20+ человек.</p>
+      <button aria-label="Подробнее об акции на торт">Подробнее</button>
+    </div>
+  </div>
+</section>
+
+<!-- Subscription -->
+<section class="subscription">
+  <h2>Подпишитесь на закрытые акции</h2>
+  <form id="subscriptionForm">
+    <input type="email" placeholder="Ваш Email" required aria-label="Введите ваш email для подписки">
+    <button type="submit" aria-label="Подписаться на акции">Подписаться</button>
+  </form>
+</section>
+
+<!-- Footer -->
+<footer>
+  <p>Телефон: 8 (800) 111-20-20</p>
+  <nav>
+    <ul>
+      <li><a href="#promotions" aria-label="Перейти к акциям">Акции</a></li>
+      <li><a href="search.html" aria-label="Перейти к поиску локаций">Поиск</a></li>
+      <li><a href="#booking-management" aria-label="Управление бронированием">Управление бронированием</a></li>
+    </ul>
+  </nav>
 </footer>
-<script type="module" src="/src/main.js"></script>
+
+<script>
+  // Search Form Submission
+  document.getElementById('searchForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const formData = {
+      region: this.region.value,
+      eventDate: this.eventDate.value,
+      adults: parseInt(this.adults.value),
+      children: parseInt(this.children.value)
+    };
+    localStorage.setItem('searchData', JSON.stringify(formData));
+    window.location.href = 'search.html';
+  });
+
+  // Subscription Form Feedback
+  document.getElementById('subscriptionForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    alert('Спасибо за подписку!');
+    this.reset();
+  });
+</script>
 </body>
 </html>

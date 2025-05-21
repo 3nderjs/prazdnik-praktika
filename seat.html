@@ -1,10 +1,251 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+  <html lang="ru">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Выбор зоны - Праздник в каждый дом</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: #f8f1e9;
+            color: #2d2d2d;
+        }
+
+        header {
+            background: linear-gradient(90deg, #1e3a8a, #3b82f6);
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 700;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 30px;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+
+        nav ul li a:hover {
+            color: #facc15;
+        }
+
+        .zone-selection {
+            padding: 60px 40px;
+            text-align: center;
+        }
+
+        .zone-selection h1 {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 40px;
+            color: #1e3a8a;
+        }
+
+        .zone-map {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto 40px;
+        }
+
+        .zone {
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .zone.free {
+            background: linear-gradient(135deg, #facc15, #f59e0b);
+            animation: pulse 2s infinite;
+        }
+
+        .zone.booked {
+            background-color: #d1d5db;
+            cursor: not-allowed;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .zone.free:hover {
+            transform: scale(1.1);
+        }
+
+        .zone-selection button {
+            padding: 12px 30px;
+            background-color: #facc15;
+            color: #1e3a8a;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        .zone-selection button:hover {
+            background-color: #eab308;
+            transform: scale(1.05);
+        }
+
+        footer {
+            padding: 40px;
+            background-color: #1e3a8a;
+            color: white;
+            text-align: center;
+        }
+
+        footer a {
+            color: #facc15;
+            text-decoration: none;
+            font-size: 16px;
+            margin: 0 15px;
+        }
+
+        @media (max-width: 768px) {
+            .zone-map { grid-template-columns: 1fr; }
+        }
+    </style>
+  </head>
+  <body>
+  <header>
+    <div class="logo">Праздник в каждый дом</div>
+    <nav>
+      <ul>
+        <li><a href="index.html#promotions">Акции</a></li>
+        <li><a href="search.html">Поиск</a></li>
+        <li><a href="#booking-management">Управление бронированием</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <section class="zone-selection">
+    <h1 id="locationTitle">Выберите зону</h1>
+    <div class="zone-map" id="zoneMap"></div>
+    <button id="bookButton" style="display: none;" onclick="proceedToBooking()">Забронировать</button>
+  </section>
+
+  <footer>
+    <p>Телефон: 8 (800) 111-20-20</p>
+    <nav>
+      <a href="http://xxxxxx-m1.wsr.ru/return">Возврат</a>
+      <a href="http://xxxxxx-m1.wsr.ru/feedback">Обратная связь</a>
+    </nav>
+  </footer>
+
+  <script>
+    const locations = [
+      {
+        id: 1,
+        region: 'moscow',
+        name: 'Парк Сокольники',
+        address: 'ул. Сокольническая, 1',
+        availableDates: ['2025-06-01', '2025-06-02'],
+        zones: [
+          { id: 1, name: 'Зона 1', cost: 5000, available: true },
+          { id: 2, name: 'Зона 2', cost: 6000, available: true },
+          { id: 3, name: 'Зона 3', cost: 5500, available: false }
+        ],
+        maxCapacity: 50
+      },
+      {
+        id: 2,
+        region: 'moscow',
+        name: 'Измайловский парк',
+        address: 'ул. Измайловская, 7',
+        availableDates: ['2025-06-01', '2025-06-03'],
+        zones: [
+          { id: 1, name: 'Зона A', cost: 7000, available: true },
+          { id: 2, name: 'Зона B', cost: 6500, available: false }
+        ],
+        maxCapacity: 40
+      },
+      {
+        id: 3,
+        region: 'spb',
+        name: 'Приморский парк',
+        address: 'ул. Приморская, 10',
+        availableDates: ['2025-06-01', '2025-06-02'],
+        zones: [
+          { id: 1, name: 'Зона X', cost: 8000, available: true },
+          { id: 2, name: 'Зона Y', cost: 7500, available: true },
+          { id: 3, name: 'Зона Z', cost: 7000, available: true }
+        ],
+        maxCapacity: 60
+      }
+    ];
+
+    let selectedZoneId = null;
+
+    function displayZones() {
+      const locationId = parseInt(localStorage.getItem('selectedLocationId'));
+      const location = locations.find(loc => loc.id === locationId);
+      if (!location) {
+        document.getElementById('zoneMap').innerHTML = '<p>Локация не найдена.</p>';
+        return;
+      }
+
+      document.getElementById('locationTitle').textContent = `Выберите зону в ${location.name}`;
+      const zoneMap = document.getElementById('zoneMap');
+
+      location.zones.forEach(zone => {
+        const zoneDiv = document.createElement('div');
+        zoneDiv.className = `zone ${zone.available ? 'free' : 'booked'}`;
+        zoneDiv.textContent = `${zone.name} (${zone.cost} руб.)`;
+        if (zone.available) {
+          zoneDiv.onclick = () => selectZone(zone.id);
+        }
+        zoneMap.appendChild(zoneDiv);
+      });
+    }
+
+    function selectZone(zoneId) {
+      selectedZoneId = zoneId;
+      document.getElementById('bookButton').style.display = 'block';
+      document.querySelectorAll('.zone').forEach(zone => {
+        zone.style.border = zoneId === parseInt(zone.textContent.split(' ')[1]) ? '2px solid #1e3a8a' : 'none';
+      });
+    }
+
+    function proceedToBooking() {
+      if (selectedZoneId) {
+        localStorage.setItem('selectedZoneId', selectedZoneId);
+        window.location.href = 'booking.html';
+      }
+    }
+
+    window.onload = displayZones;
+  </script>
+  </body>
+  </html>

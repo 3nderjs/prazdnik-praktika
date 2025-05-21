@@ -1,10 +1,292 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <title>$Title$</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Поиск локаций - Праздник в каждый дом</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+      * {
+          margin: 0;
+          padding: 0;
+          box-sizing: border-box;
+          font-family: 'Poppins', sans-serif;
+      }
+
+      body {
+          background-color: #f8f1e9;
+          color: #2d2d2d;
+      }
+
+      /* Header */
+      header {
+          background: linear-gradient(90deg, #1e3a8a, #3b82f6);
+          padding: 20px 40px;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          color: white;
+          position: sticky;
+          top: 0;
+          z-index: 100;
+          box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      }
+
+      .logo {
+          font-size: 28px;
+          font-weight: 700;
+          letter-spacing: 1px;
+      }
+
+      nav ul {
+          list-style: none;
+          display: flex;
+          gap: 30px;
+      }
+
+      nav ul li a {
+          color: white;
+          text-decoration: none;
+          font-size: 16px;
+          font-weight: 600;
+          transition: color 0.3s;
+      }
+
+      nav ul li a:hover {
+          color: #facc15;
+      }
+
+      /* Locations Section */
+      .locations {
+          padding: 60px 40px;
+          text-align: center;
+      }
+
+      .locations h1 {
+          font-size: 36px;
+          font-weight: 700;
+          margin-bottom: 40px;
+          color: #1e3a8a;
+      }
+
+      .location-list {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+          gap: 20px;
+          max-width: 1200px;
+          margin: 0 auto;
+      }
+
+      .location-card {
+          background-color: white;
+          padding: 20px;
+          border-radius: 15px;
+          box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+          animation: fadeIn 1s ease-in-out;
+          transition: transform 0.3s;
+      }
+
+      .location-card:hover {
+          transform: translateY(-10px);
+      }
+
+      @keyframes fadeIn {
+          from { opacity: 0; transform: translateY(20px); }
+          to { opacity: 1; transform: translateY(0); }
+      }
+
+      .location-card p {
+          margin: 10px 0;
+          font-size: 16px;
+      }
+
+      .location-card button {
+          padding: 10px 20px;
+          background-color: #facc15;
+          color: #1e3a8a;
+          border: none;
+          border-radius: 8px;
+          font-size: 16px;
+          font-weight: 600;
+          cursor: pointer;
+          transition: background-color 0.3s, transform 0.3s;
+      }
+
+      .location-card button:hover {
+          background-color: #eab308;
+          transform: scale(1.05);
+      }
+
+      .no-results {
+          font-size: 18px;
+          color: #1e3a8a;
+      }
+
+      /* Footer */
+      footer {
+          padding: 40px;
+          background-color: #1e3a8a;
+          color: white;
+          text-align: center;
+      }
+
+      footer p {
+          font-size: 18px;
+          margin-bottom: 20px;
+      }
+
+      footer a {
+          color: #facc15;
+          text-decoration: none;
+          font-size: 16px;
+          margin: 0 15px;
+          transition: color 0.3s;
+      }
+
+      footer a:hover {
+          color: #eab308;
+      }
+
+      /* Responsive Design */
+      @media (max-width: 768px) {
+          header {
+              flex-direction: column;
+              gap: 20px;
+          }
+
+          nav ul {
+              flex-direction: column;
+              text-align: center;
+          }
+
+          .location-list {
+              grid-template-columns: 1fr;
+          }
+      }
+  </style>
 </head>
 <body>
-$END$
+<!-- Header -->
+<header>
+  <div class="logo">Праздник в каждый дом</div>
+  <nav>
+    <ul>
+      <li><a href="index.html#promotions">Акции</a></li>
+      <li><a href="search.html">Поиск</a></li>
+      <li><a href="#booking-management">Управление бронированием</a></li>
+    </ul>
+  </nav>
+</header>
+
+<!-- Locations Section -->
+<section class="locations">
+  <h1>Доступные локации</h1>
+  <div class="location-list" id="locationList"></div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <p>Телефон: 8 (800) 111-20-20</p>
+  <nav>
+    <a href="http://xxxxxx-m1.wsr.ru/return">Возврат</a>
+    <a href="http://xxxxxx-m1.wsr.ru/feedback">Обратная связь</a>
+  </nav>
+</footer>
+
+<script>
+  // Sample location data (simulating a database)
+  const locations = [
+    {
+      id: 1,
+      region: 'moscow',
+      name: 'Парк Сокольники',
+      address: 'ул. Сокольническая, 1',
+      availableDates: ['2025-06-01', '2025-06-02'],
+      zones: [
+        { id: 1, name: 'Зона 1', cost: 5000, available: true },
+        { id: 2, name: 'Зона 2', cost: 6000, available: true },
+        { id: 3, name: 'Зона 3', cost: 5500, available: false }
+      ],
+      maxCapacity: 50
+    },
+    {
+      id: 2,
+      region: 'moscow',
+      name: 'Измайловский парк',
+      address: 'ул. Измайловская, 7',
+      availableDates: ['2025-06-01', '2025-06-03'],
+      zones: [
+        { id: 1, name: 'Зона A', cost: 7000, available: true },
+        { id: 2, name: 'Зона B', cost: 6500, available: false }
+      ],
+      maxCapacity: 40
+    },
+    {
+      id: 3,
+      region: 'spb',
+      name: 'Приморский парк',
+      address: 'ул. Приморская, 10',
+      availableDates: ['2025-06-01', '2025-06-02'],
+      zones: [
+        { id: 1, name: 'Зона X', cost: 8000, available: true },
+        { id: 2, name: 'Зона Y', cost: 7500, available: true },
+        { id: 3, name: 'Зона Z', cost: 7000, available: true }
+      ],
+      maxCapacity: 60
+    }
+  ];
+
+  // Function to display filtered locations
+  function displayLocations() {
+    const searchData = JSON.parse(localStorage.getItem('searchData'));
+    const locationList = document.getElementById('locationList');
+
+    if (!searchData) {
+      locationList.innerHTML = '<p class="no-results">Пожалуйста, выполните поиск на главной странице.</p>';
+      return;
+    }
+
+    const { region, eventDate, adults, children } = searchData;
+    const totalPeople = adults + children;
+
+    // Filter locations based on search criteria
+    const filteredLocations = locations.filter(location =>
+      location.region === region &&
+      location.availableDates.includes(eventDate) &&
+      location.maxCapacity >= totalPeople &&
+      location.zones.some(zone => zone.available)
+    );
+
+    if (filteredLocations.length === 0) {
+      locationList.innerHTML = '<p class="no-results">Нет доступных локаций для выбранных критериев.</p>';
+      return;
+    }
+
+    // Display each location as a card
+    filteredLocations.forEach(location => {
+      const availableZones = location.zones.filter(zone => zone.available).length;
+      const card = document.createElement('div');
+      card.className = 'location-card';
+      card.innerHTML = `
+                    <p><strong>Регион:</strong> ${location.region === 'moscow' ? 'Москва' : 'Санкт-Петербург'}</p>
+                    <p><strong>Локация:</strong> ${location.name}</p>
+                    <p><strong>Адрес:</strong> ${location.address}</p>
+                    <p><strong>Дата:</strong> ${eventDate}</p>
+                    <p><strong>Свободные зоны:</strong> ${availableZones}</p>
+                    <button onclick="selectLocation(${location.id})">Выбрать</button>
+                `;
+      locationList.appendChild(card);
+    });
+  }
+
+  // Function to store selected location and redirect
+  function selectLocation(locationId) {
+    localStorage.setItem('selectedLocationId', locationId);
+    window.location.href = 'seat.html';
+  }
+
+  // Load locations on page load
+  window.onload = displayLocations;
+</script>
 </body>
 </html>
